@@ -5,13 +5,14 @@ from sqlalchemy import pool
 
 from alembic import context
 
+from decouple import config as decouple_config
 from app.db.models import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
-config.set_main_option("sqlalchemy.url", "postgresql+psycopg2://postgres:postgres@35.247.195.118/postgres")
+config.set_main_option("sqlalchemy.url", decouple_config('DB_URL'))
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
