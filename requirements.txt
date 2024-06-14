@@ -1,0 +1,9 @@
+fastapi
+sqlalchemy
+alembic
+psycopg2-binary
+pytest
+passlib
+python-decouple 
+python-jose 
+python-multipart
