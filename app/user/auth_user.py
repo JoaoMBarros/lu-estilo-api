@@ -12,7 +12,7 @@ import pytz
 
 SECRET_KEY = config("SECRET_KEY")
 ALGORITHM = config("ALGORITHM")
-ACCESS_TOKEN_MINUTES_EXP = 1
+ACCESS_TOKEN_MINUTES_EXP = 30
 REFRESH_TOKEN_DAYS_EXP = 30
 pwd_context = CryptContext(schemes=['sha256_crypt'])
 

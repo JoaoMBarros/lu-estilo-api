@@ -21,7 +21,6 @@ class UserCreate(UserBase):
         if not re.match(r"[a-zA-Z\s]+", self.name):
             raise ValueError("Invalid name")
 
-
 # This is used when returning the data to the user
 class User(UserBase):
     id: str
@@ -35,10 +34,12 @@ class UserLogin(BaseModel):
         if not re.match(r"[^@]+@[^@]+\.[^@]+", self.email):
             raise ValueError("Invalid email")
 
-class Client(BaseModel):
+class ClientBase(BaseModel):
     name: str
     email: str
     cpf: str
+
+class ClientCreate(ClientBase):
 
     def validate_email(self):
         if not re.match(r"[^@]+@[^@]+\.[^@]+", self.email):
@@ -51,6 +52,11 @@ class Client(BaseModel):
     def validate_name(self):
         if not re.match(r"[a-zA-Z\s]+", self.name):
             raise ValueError("Invalid name")
+
+class Client(ClientBase):
+    id: str
+    orders: list['Order'] = []
+    pass
 
 class Category(BaseModel):
     name: str
