@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from app.user.routes import user_router
 from app.client.routes import client_router
+from app.category.routes import category_router
 
 app = FastAPI()
 
@@ -10,3 +11,4 @@ def read_root():
 
 app.include_router(user_router)
 app.include_router(client_router)
+app.include_router(category_router)

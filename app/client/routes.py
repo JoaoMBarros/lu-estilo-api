@@ -3,9 +3,9 @@ from fastapi.responses import JSONResponse, Response
 from sqlalchemy.orm import Session
 from app.depends import get_db, token_verifier
 from app.client.client_service import ClientService
-from app.schemas import Client, ClientBase
+from app.schemas import ClientBase
 from typing import Optional
-import uuid
+
 
 client_router = APIRouter(prefix='/clients', dependencies=[Depends(token_verifier)])
 

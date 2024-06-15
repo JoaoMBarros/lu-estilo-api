@@ -2,13 +2,17 @@ import re
 from pydantic import BaseModel
 from datetime import datetime
 
-# This is used to validate the data that is being sent to the API
+'''
+BaseModel: Base class for all models. What the user will send to the API.
+CreateModel: Model for creating a new object. It has the same fields as the BaseModel, but with some validations.
+Model: Model for objects that are already in the database. It has the same fields as the BaseModel, but with the id field.
+'''
+
 class UserBase(BaseModel):
     name: str
     email: str
     password: str
 
-# This is used to create a new user
 class UserCreate(UserBase):
     refresh_token: str
     password: str
@@ -21,7 +25,6 @@ class UserCreate(UserBase):
         if not re.match(r"[a-zA-Z\s]+", self.name):
             raise ValueError("Invalid name")
 
-# This is used when returning the data to the user
 class User(UserBase):
     id: str
     refresh_token: str
@@ -58,13 +61,18 @@ class Client(ClientBase):
     orders: list['Order'] = []
     pass
 
-class Category(BaseModel):
+class CategoryBase(BaseModel):
     name: str
-    producs: list['Product'] = []
 
+class CategoryCreate(CategoryBase):
     def validate_name(self):
         if not re.match(r"[a-zA-Z\s]+", self.name):
             raise ValueError("Invalid name")
+
+class Category(BaseModel):
+    id: str
+    name: str
+    producs: list['Product'] = []
 
 class Product(BaseModel):
     name: str
