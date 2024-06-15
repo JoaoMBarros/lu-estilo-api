@@ -9,6 +9,7 @@ class UserModel(Base):
     name = Column(String, index=True, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     password = Column(String, nullable=False)
+    refresh_token = Column(String, nullable=True)
 
 class ClientModel(Base):
     __tablename__ = "clients"
