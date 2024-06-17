@@ -35,11 +35,11 @@ class ProductModel(Base):
     description = Column(String, nullable=False)
     barcode = Column(String, unique=True, index=True, nullable=False)
     section = Column(String, nullable=False)
-    initial_quantity = Column(Integer, nullable=False)
+    stock = Column(Integer, nullable=False)
     expire_date = Column(DateTime(timezone=True), nullable=False)
     available = Column(Boolean, nullable=False)
-    images = Column(String, nullable=True)
     
+    images = relationship("ProductImages", back_populates="product")
     categories = relationship("ProductCategoryJoin", back_populates="product")
     orders = relationship("OrderProductJoin", back_populates="product")
 
@@ -63,6 +63,15 @@ class OrderModel(Base):
     client = relationship("ClientModel", back_populates="orders")
     products = relationship("OrderProductJoin", back_populates="order")
 
+class ProductImages(Base):
+    __tablename__ = "product_images"
+
+    id = Column(String, primary_key=True, index=True, default=generate_uuid)
+    product_id = Column(String, ForeignKey("products.id"), nullable=False)
+    image_url = Column(String, nullable=False)
+
+    product = relationship("ProductModel", back_populates="images")
+
 # Join table for many-to-many relationship between OrderModel and ProductModel
 class OrderProductJoin(Base):
     __tablename__ = "order_product_join"
@@ -78,8 +87,8 @@ class OrderProductJoin(Base):
 class ProductCategoryJoin(Base):
     __tablename__ = "product_category_join"
     
-    product_id = Column(String, ForeignKey("products.id"), primary_key=True)
-    category_id = Column(String, ForeignKey("categories.id"), primary_key=True)
+    product_id = Column(String, ForeignKey("products.id"), primary_key=True, nullable=False, autoincrement=False)
+    category_id = Column(String, ForeignKey("categories.id"), primary_key=True, nullable=False, autoincrement=False)
     
     product = relationship("ProductModel", back_populates="categories")
     category = relationship("CategoryModel", back_populates="products")

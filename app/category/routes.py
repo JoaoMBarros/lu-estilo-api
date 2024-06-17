@@ -18,7 +18,7 @@ async def get_categories(db: Session = Depends(get_db)):
     category_service = CategoryService(db=db)
     categories = category_service.get_categories()
     if categories:
-        return JSONResponse(content=[category.model_dump() for category in categories], status_code=status.HTTP_200_OK)
+        return JSONResponse(content=categories, status_code=status.HTTP_200_OK)
     else:
         return Response(status_code=status.HTTP_404_NOT_FOUND)
 
