@@ -65,7 +65,7 @@ class Client(ClientBase):
 class CategoryBase(BaseModel):
     name: str
 
-class CategoryInput(BaseModel):
+class CategoryInput(CategoryBase):
     id: str
 
 class CategoryCreate(CategoryBase):

@@ -4,7 +4,7 @@ from fastapi import status
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.db.models import UserModel
-from app.schemas import User, UserLogin, UserCreate, UserBase
+from app.schemas import UserLogin, UserCreate, UserBase
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 from decouple import config
