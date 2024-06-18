@@ -56,10 +56,10 @@ class OrderModel(Base):
 
     id = Column(String, primary_key=True, index=True, default=generate_uuid)
     created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
-    total_price = Column(Integer, nullable=False)
     status = Column(String, nullable=False)
     client_id = Column(String, ForeignKey("clients.id"), nullable=False) # This ensures that each order has a single client
-
+    total_price = Column(Integer, nullable=False)
+    
     client = relationship("ClientModel", back_populates="orders")
     products = relationship("OrderProductJoin", back_populates="order")
 

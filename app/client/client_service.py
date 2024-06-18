@@ -2,8 +2,8 @@ import datetime
 from fastapi.exceptions import HTTPException
 from fastapi import status
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import Session
-from app.db.models import ClientModel
+from sqlalchemy.orm import Session, joinedload
+from app.db.models import ClientModel, OrderModel
 from app.schemas import Client, ClientBase, ClientCreate
 
 class ClientService():
@@ -29,8 +29,20 @@ class ClientService():
         query = self.db.query(ClientModel)
         if name or email:
             query = query.filter(ClientModel.name == name) if name else query.filter(ClientModel.email == email)
-        db_clients = query.all()
-        return [Client(**client.__dict__) for client in db_clients]
+        db_clients = query.options(joinedload(ClientModel.orders)).all()
+        return [({
+            "id": client.id,
+            "name": client.name,
+            "email": client.email,
+            "cpf": client.cpf,
+            "orders": [
+                {
+                    'order_id': order.id,
+                    'created_at': order.created_at.isoformat(),
+                    'status': order.status,
+                    'total_price': order.total_price
+                } for order in client.orders]
+        }) for client in db_clients]
 
     def get_client_by_id(self, id: str):
         db_client = self.db.query(ClientModel).filter(ClientModel.id == id).first()

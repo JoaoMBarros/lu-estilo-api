@@ -20,7 +20,7 @@ async def get_clients(name: Optional[str] = Query(None), email: Optional[str] = 
     client_service = ClientService(db=db)
     clients = client_service.get_clients(name = name, email = email)
     if clients:
-        return JSONResponse(content=[client.model_dump() for client in clients], status_code=status.HTTP_200_OK)
+        return JSONResponse(content=clients, status_code=status.HTTP_200_OK)
     else:
         return Response(status_code=status.HTTP_404_NOT_FOUND)
     
@@ -29,7 +29,7 @@ async def get_client(id: str, db: Session = Depends(get_db)):
     client_service = ClientService(db=db)
     client = client_service.get_client_by_id(id)
     if client:
-        return JSONResponse(content=client.model_dump(), status_code=status.HTTP_200_OK)
+        return Response(content=client.model_dump(), status_code=status.HTTP_200_OK)
     else:
         return Response(status_code=status.HTTP_404_NOT_FOUND)
 

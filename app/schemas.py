@@ -3,12 +3,6 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import List
 
-'''
-BaseModel: Base class for all models. What the user will send to the API.
-CreateModel: Model for creating a new object. It has the same fields as the BaseModel, but with some validations.
-Model: Model for objects that are already in the database. It has the same fields as the BaseModel, but with the id field.
-'''
-
 class UserBase(BaseModel):
     name: str
     email: str
@@ -59,7 +53,7 @@ class ClientCreate(ClientBase):
 
 class Client(ClientBase):
     id: str
-    orders: list['Order'] = []
+    orders: list['OrderClient'] = []
     pass
 
 class CategoryBase(BaseModel):
@@ -135,6 +129,10 @@ class Product(ProductBase):
     id: str
     images: list['ProductImages'] = []
 
+class ProductOrder(BaseModel):
+    product_id: str
+    quantity: int
+
 class ProductImagesBase(BaseModel):
     image_url: str
 
@@ -145,15 +143,24 @@ class ProductImages(ProductImagesBase):
     id: str
     product: 'Product'
 
-class Order(BaseModel):
+class OrderClient(BaseModel):
+    id: str
     created_at: datetime
     total_price: int
     status: str
-    client_id: str
-    products: list['Product'] = []
-    client: 'Client'
 
-class OrderProductJoin(BaseModel):
+class OrderBase(BaseModel):
+    client_id: str
+    status: str
+    total_price: int
+    products: list['ProductOrder'] = []
+
+class OrderCreate(BaseModel):
+    client_id: str
+    status: str
+    total_price: int
+
+class OrderProductJoinCreate(BaseModel):
     order_id: str
     product_id: str
     quantity: int
