@@ -1,79 +1,160 @@
 import re
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator, ValidationInfo
 from datetime import datetime
 from typing import List
 
 class UserBase(BaseModel):
+    '''Basic schema with common fields for User'''
     name: str
     email: str
     password: str
 
-class UserCreate(UserBase):
-    refresh_token: str
-    password: str
-
-    def validate_email(self):
-        if not re.match(r"[^@]+@[^@]+\.[^@]+", self.email):
+    @field_validator("email")
+    def validate_email(cls, v: str):
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", v):
             raise ValueError("Invalid email")
-   
-    def validate_name(self):
-        if not re.match(r"[a-zA-Z\s]+", self.name):
+        return v
+    
+    @field_validator("name")
+    def validate_name(cls, v: str):
+        if not re.match(r"[a-zA-Z\s]+", v):
             raise ValueError("Invalid name")
+        return v
 
-class User(UserBase):
+class UserCreate(UserBase):
+    '''Schema for creating a new User in the dabatase'''
+    refresh_token: str
+    role: str
+
+    @field_validator("role")
+    def validate_role(cls, v: str):
+        if v not in ["admin", "regular"]:
+            raise ValueError("Invalid role")
+        return v
+
+class UserDatabase(UserBase):
+    '''Schema for returning a User from the database'''
     id: str
     refresh_token: str
 
 class UserLogin(BaseModel):
+    '''Schema for logging in a User'''
     email: str
     password: str
 
-    def validate_email(self):
-        if not re.match(r"[^@]+@[^@]+\.[^@]+", self.email):
+    @field_validator("email")
+    def validate_email(cls, v: str):
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", v):
             raise ValueError("Invalid email")
+        return v
+    
+class UserRegister(UserBase):
+    '''Schema for registering a User'''
+    password_confirmation: str
+
+    @field_validator("password_confirmation")
+    def validate_password_confirmation(cls, v: str, info: ValidationInfo):
+        if "password" in info.data and v != info.data["password"]:
+            raise ValueError("Passwords do not match")
+
+class UserRegisterReturn(BaseModel):
+    '''Schema for returning a User from the database after registration'''
+    id: str
+    name: str
+    email: str
+    password: str
+
+class UserRefreshToken(BaseModel):
+    '''Schema for returning a User from the database after registration'''
+    refresh_token: str
+    refresh_expires_in: str
+    access_token: str
+    access_expires_in: str
 
 class ClientBase(BaseModel):
+    '''Basic schema with common fields for Client'''
     name: str
     email: str
     cpf: str
 
-class ClientCreate(ClientBase):
-
-    def validate_email(self):
-        if not re.match(r"[^@]+@[^@]+\.[^@]+", self.email):
+    @field_validator("email")
+    def validate_email(cls, v: str):
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", v):
             raise ValueError("Invalid email")
+        return v
     
-    def validate_cpf(self):
-        if not re.match(r"\d{11}", self.cpf):
-            raise ValueError("Invalid CPF")
-    
-    def validate_name(self):
-        if not re.match(r"[a-zA-Z\s]+", self.name):
+    @field_validator("name")
+    def validate_name(cls, v: str):
+        if not re.match(r"[a-zA-Z\s]+", v):
             raise ValueError("Invalid name")
+        return v
 
-class Client(ClientBase):
+    @field_validator("cpf")
+    def validate_cpf(cls, v: str):
+        if not re.match(r"\d{11}", v):
+            raise ValueError("Invalid CPF")
+        return v
+
+class ClientReturnUpdate(ClientBase):
     id: str
-    orders: list['OrderClient'] = []
+
+class ClientCreate(ClientBase):
+    pass
+
+class ClientDatabase(ClientBase):
+    id: str
+    orders: list['ClientOrder'] = []
+
+class ClientOrder(BaseModel):
+    id: str
+    created_at: str
+    total_price: int
+    status: str
+
+class ClientRegister(ClientBase):
     pass
 
 class CategoryBase(BaseModel):
     name: str
 
-class CategoryInput(CategoryBase):
+    @field_validator("name")
+    def validate_name(cls, v: str):
+        if not re.match(r"[a-zA-Z\s]+", v):
+            raise ValueError("Invalid name")
+        return v
+
+class CategoryCreateReturn(CategoryBase):
     id: str
+
+class CategoryRegister(CategoryBase):
+    pass
 
 class CategoryCreate(CategoryBase):
-    def validate_name(self):
-        if not re.match(r"[a-zA-Z\s]+", self.name):
-            raise ValueError("Invalid name")
+    pass
 
-class Category(CategoryBase):
+class CategoryDatabase(CategoryBase):
     id: str
     name: str
-    products: List['Product'] = []
+    products: List['CategoryProducts'] = []
 
     class Config:
         from_attributes = True
+
+class CategoryProducts(BaseModel):
+    id: str
+    name: str
+    price: int
+    description: str
+    barcode: str
+    section: str
+    stock: int
+    expire_date: str
+    available: bool
+    images: list['CategoryProductsImages'] = []
+
+class CategoryProductsImages(BaseModel):
+    id: str
+    image_url: str
 
 class ProductBase(BaseModel):
     name: str
@@ -82,56 +163,66 @@ class ProductBase(BaseModel):
     barcode: str
     section: str
     stock: int
-    expire_date: datetime
-    available: bool
-    images: list['ProductImagesBase'] = []
-    categories: list['CategoryInput'] = []
-
-class ProductCreate(BaseModel):
-    name: str
-    price: int
-    description: str
-    barcode: str
-    section: str
-    stock: int
-    expire_date: datetime
+    expire_date: str
     available: bool
 
-    def validate_name(self):
-        if not re.match(r"[a-zA-Z\s]+", self.name):
+    @field_validator("name")
+    def validate_name(cls, v: str):
+        if not re.match(r"[a-zA-Z\s]+", v):
             raise ValueError("Invalid name")
+        return v
     
-    def validate_price(self):
-        if not re.match(r"\d+\.\d{2}", self.price):
+    @field_validator("price")
+    def validate_price(cls, v: int):
+        if v < 0:
             raise ValueError("Invalid price")
+        return v
     
-    def validate_barcode(self):
-        if not re.match(r"\d{13}", self.barcode):
+    @field_validator("barcode")
+    def validate_barcode(cls, v: str):
+        if not re.match(r"\d+", v):
             raise ValueError("Invalid barcode")
-    
-    def validate_section(self):
-        if not re.match(r"[a-zA-Z\s]+", self.section):
+        return v
+        
+    @field_validator("section")
+    def validate_section(cls, v: str):
+        if not re.match(r"[a-zA-Z\s]+", v):
             raise ValueError("Invalid section")
+        return v
     
-    def validate_stock(self):
-        if not re.match(r"\d+", self.stock):
-            raise ValueError("Invalid initial quantity")
+    @field_validator("stock")
+    def validate_stock(cls, v: int):
+        if v < 0:
+            raise ValueError("Invalid stock")
+        return v
     
-    def validate_expire_date(self):
-        if not re.match(r"\d{4}-\d{2}-\d{2}", self.expire_date):
-            raise ValueError("Invalid expire date")
     
-    def validate_available(self):
-        if not re.match(r"True|False", self.available):
-            raise ValueError("Invalid available")
+    @field_validator("available")
+    def validate_available(cls, v: bool):
+        return v
 
-class Product(ProductBase):
+class ProductRegister(ProductBase):
+    images: list['ProductImagesBase'] = []
+    categories: list['ProductCategory'] = []
+
+class ProductRegisterReturn(ProductRegister):
     id: str
-    images: list['ProductImages'] = []
 
-class ProductOrder(BaseModel):
+class ProductCreate(ProductBase):
+    pass
+
+class ProductDatabase(ProductBase):
+    id: str
+    categories: list['ProductCategory'] = []
+    images: list['ProductImagesDatabase'] = []
+
+class ProductCategory(BaseModel):
+    id: str
+    name: str
+
+class ProductCategoryJoinCreate(BaseModel):
     product_id: str
-    quantity: int
+    category_id: str
 
 class ProductImagesBase(BaseModel):
     image_url: str
@@ -139,28 +230,49 @@ class ProductImagesBase(BaseModel):
 class ProductImagesCreate(ProductImagesBase):
     product_id: str
 
-class ProductImages(ProductImagesBase):
+class ProductImagesDatabase(ProductImagesBase):
     id: str
-    product: 'Product'
-
-class OrderClient(BaseModel):
-    id: str
-    created_at: datetime
-    total_price: int
-    status: str
 
 class OrderBase(BaseModel):
     client_id: str
     status: str
     total_price: int
-    products: list['ProductOrder'] = []
+
+class OrderDatabase(OrderBase):
+    id: str
+    created_at: str
+    products: list['OrderProductReturn'] = []
+
+class OrderRegister(OrderBase):
+    products: list['OrderProduct'] = []
 
 class OrderCreate(BaseModel):
     client_id: str
     status: str
     total_price: int
 
+class OrderBoughtProducts(ProductBase):
+    id: str
+    quantity: int
+
+class OrderProduct(BaseModel):
+    product_id: str
+    quantity: int
+
+    @field_validator("quantity")
+    def validate_quantity(cls, v: int):
+        if v < 0:
+            raise ValueError("Invalid quantity")
+        return v
+
+class OrderProductReturn(OrderProduct):
+    name: str
+    price: int
+
 class OrderProductJoinCreate(BaseModel):
     order_id: str
     product_id: str
     quantity: int
+
+class OrderRegisterReturn(OrderBase):
+    id: str
