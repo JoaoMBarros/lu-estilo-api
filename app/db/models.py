@@ -15,6 +15,7 @@ class UserModel(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     password = Column(String, nullable=False)
     refresh_token = Column(String, nullable=True)
+    role = Column(String, nullable=False)
 
 class ClientModel(Base):
     __tablename__ = "clients"
@@ -36,7 +37,7 @@ class ProductModel(Base):
     barcode = Column(String, unique=True, index=True, nullable=False)
     section = Column(String, nullable=False)
     stock = Column(Integer, nullable=False)
-    expire_date = Column(DateTime(timezone=True), nullable=False)
+    expire_date = Column(String, nullable=False)
     available = Column(Boolean, nullable=False)
     
     images = relationship("ProductImages", back_populates="product")
@@ -47,7 +48,7 @@ class CategoryModel(Base):
     __tablename__ = "categories"
 
     id = Column(String, primary_key=True, index=True, default=generate_uuid)
-    name = Column(String, index=True, nullable=False)
+    name = Column(String, index=True, unique=True, nullable=False)
 
     products = relationship("ProductCategoryJoin", back_populates="category")
 
@@ -55,7 +56,7 @@ class OrderModel(Base):
     __tablename__ = "orders"
 
     id = Column(String, primary_key=True, index=True, default=generate_uuid)
-    created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+    created_at = Column(String, nullable=False, server_default=func.now())
     status = Column(String, nullable=False)
     client_id = Column(String, ForeignKey("clients.id"), nullable=False) # This ensures that each order has a single client
     total_price = Column(Integer, nullable=False)
