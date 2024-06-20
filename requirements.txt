@@ -8,3 +8,4 @@ python-decouple
 python-jose 
 python-multipart
 pytz
+sentry-sdk[fastapi]

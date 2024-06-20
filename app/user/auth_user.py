@@ -10,8 +10,8 @@ from jose import JWTError, jwt
 from decouple import config
 import pytz
 
-SECRET_KEY = config("SECRET_KEY")
-ALGORITHM = config("ALGORITHM")
+SECRET_KEY = "3e7d65a25e297a10a4beddee2a5fcde16a6f1fd10524dd8d5cc4e3d98b474240"
+ALGORITHM = "HS256"
 ACCESS_TOKEN_MINUTES_EXP = 30
 REFRESH_TOKEN_DAYS_EXP = 30
 pwd_context = CryptContext(schemes=['sha256_crypt'])

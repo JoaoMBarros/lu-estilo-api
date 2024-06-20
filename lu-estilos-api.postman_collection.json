@@ -1,0 +1,811 @@
+{
+	"info": {
+		"_postman_id": "911a3d73-9234-4daa-b2dc-af4995141ebb",
+		"name": "lu-estilos-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33186323"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"usuario teste\",\r\n    \"email\": \"infog2@example.com\",\r\n    \"password\": \"senha123\",\r\n    \"password_confirmation\": \"senha123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/auth/register",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"infog2@example.com\",\r\n    \"password\": \"senha123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/auth/login",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh access token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvQGV4YW1wbGUuY29tIiwidG9rZW5fdHlwZSI6InJlZnJlc2giLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3MjE0MTQ4NDh9.QR40o2iJwn4nsGOgp1eaicfmzWoywlBPuLhl4ZuGHaw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// colocar o token de refresh no Authorization Bearer",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/auth/refresh-token",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"auth",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "client",
+			"item": [
+				{
+					"name": "create client",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvQGV4YW1wbGUuY29tIiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTcxODg0NTc1NX0.EiZEE99cucSM41pNc9QspGvw6GQWUVFKqxsgL43vNSw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// colocar o token de access\r\n{\r\n    \"name\": \"Joãozinho123\",\r\n    \"email\": \"criar@email.com\",\r\n    \"cpf\": \"111111111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/clients/",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"clients",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all clients",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvMTVAZXhhbXBsZS5jb20iLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4OTQ4Mzc2fQ.7tK5tNHo1VPJo-Ljv8TcuPs1pp13EG8r6Gkk6m8u-20",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// colocar o token de access\r\n// filtros: email, name e paginacao com page=1 & page_size=10 por padrao",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/clients/",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"clients",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get client by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvQGV4YW1wbGUuY29tIiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTcxODg1NDI2MX0.v_VlPfsM6AtiChHCEEGZJz0Cfa09G6ZWPpLvAbyUwfE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/clients/4a184bcf-7916-48ed-a035-8b7dbb35c962",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"clients",
+								"4a184bcf-7916-48ed-a035-8b7dbb35c962"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update client",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvMTVAZXhhbXBsZS5jb20iLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4OTQ4Mzc2fQ.7tK5tNHo1VPJo-Ljv8TcuPs1pp13EG8r6Gkk6m8u-20",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Joãozinho\",\r\n    \"email\": \"criar@email.com\",\r\n    \"cpf\": \"0000000000000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/clients/4a184bcf-7916-48ed-a035-8b7dbb35c962",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"clients",
+								"4a184bcf-7916-48ed-a035-8b7dbb35c962"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete client",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvMTVAZXhhbXBsZS5jb20iLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4OTQ4Mzc2fQ.7tK5tNHo1VPJo-Ljv8TcuPs1pp13EG8r6Gkk6m8u-20",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/clients/0b6bda41-24e3-47f7-9e16-c28b1cd1de2e",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"clients",
+								"0b6bda41-24e3-47f7-9e16-c28b1cd1de2e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "create category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvQGV4YW1wbGUuY29tIiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTcxODg5Nzc2NX0.Au0v0-8tclREAL_LZod-Rctc-6dvG6TMGoNrNZ332rk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"camisa10\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/categories/",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"categories",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvQGV4YW1wbGUuY29tIiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTcxODg5Nzc2NX0.Au0v0-8tclREAL_LZod-Rctc-6dvG6TMGoNrNZ332rk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/categories/",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"categories",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvMTVAZXhhbXBsZS5jb20iLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4OTQ4Mzc2fQ.7tK5tNHo1VPJo-Ljv8TcuPs1pp13EG8r6Gkk6m8u-20",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"camisa seleção\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/categories{id_da_categoria}",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"categories{id_da_categoria}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvMTVAZXhhbXBsZS5jb20iLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4OTQ4Mzc2fQ.7tK5tNHo1VPJo-Ljv8TcuPs1pp13EG8r6Gkk6m8u-20",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/categories/b7c7cc0b-37a2-484d-9bc1-98f04de37d43",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"categories",
+								"b7c7cc0b-37a2-484d-9bc1-98f04de37d43"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get category by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvMTVAZXhhbXBsZS5jb20iLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4OTQ4Mzc2fQ.7tK5tNHo1VPJo-Ljv8TcuPs1pp13EG8r6Gkk6m8u-20",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/categories/abe75f6f-db30-4225-9ae4-ef04d24663e6",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"categories",
+								"abe75f6f-db30-4225-9ae4-ef04d24663e6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "create product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvMTVAZXhhbXBsZS5jb20iLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4OTQ4Mzc2fQ.7tK5tNHo1VPJo-Ljv8TcuPs1pp13EG8r6Gkk6m8u-20",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Peita da seleção flamengo\",\r\n    \"price\": 4000,\r\n    \"description\": \"Camisa do flamengo 2024\",\r\n    \"barcode\": \"1111111111111\",\r\n    \"section\": \"seleções\",\r\n    \"stock\": 15,\r\n    \"expire_date\": \"2024-06-20\",\r\n    \"available\": true,\r\n    \"images\": [\r\n        {\r\n            \"image_url\": \"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ2jj-Ot0mjIDN2qH6eN6q-KM5bhC3awQzfg&s\"\r\n        },\r\n        {\r\n            \"image_url\": \"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ2jj-Ot0mjIDN2qH6eN6q-KM5bhC3awQzfg&s\"\r\n        }\r\n    ],\r\n    \"categories\": [\r\n        {\r\n            \"id\": {id_da_categoria},\r\n            \"name\": \"camisa de seleção\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/products/",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvMTVAZXhhbXBsZS5jb20iLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4OTQ4Mzc2fQ.7tK5tNHo1VPJo-Ljv8TcuPs1pp13EG8r6Gkk6m8u-20",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// filtros de category, price e available, com paginacao page=1 e page_size=10",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/products/",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get product by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvQGV4YW1wbGUuY29tIiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTcxODg1NDI2MX0.v_VlPfsM6AtiChHCEEGZJz0Cfa09G6ZWPpLvAbyUwfE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/products/9750570e-5f81-47e2-9853-bf97e39f75d4",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"products",
+								"9750570e-5f81-47e2-9853-bf97e39f75d4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvMTVAZXhhbXBsZS5jb20iLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4OTQ4Mzc2fQ.7tK5tNHo1VPJo-Ljv8TcuPs1pp13EG8r6Gkk6m8u-20",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Peita do mengo\",\r\n    \"price\": 4000,\r\n    \"description\": \"Camisa do flamengo 2021\",\r\n    \"barcode\": \"1736193716348\",\r\n    \"section\": \"time\",\r\n    \"stock\": 15,\r\n    \"expire_date\": \"2024-06-20T00:00:00+00:00\",\r\n    \"available\": true,\r\n    \"id\": {id_do_produto},\r\n    \"categories\": [\r\n        {\r\n            \"id\": \"abe75f6f-db30-4225-9ae4-ef04d24663e6\",\r\n            \"name\": \"camisa\"\r\n        },\r\n        {\r\n            \"id\": \"1a966150-de14-4be8-83a1-8d6ff384809b\",\r\n            \"name\": \"blusa\"\r\n        }\r\n    ],\r\n    \"images\": [\r\n        {\r\n            \"image_url\": \"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ2jj-Ot0mjIDN2qH6eN6q-KM5bhC3awQzfg&s\",\r\n            \"id\": \"5a6b5c8d-a0cd-4d8a-aea5-fbbd90755073\"\r\n        },\r\n        {\r\n            \"image_url\": \"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ2jj-Ot0mjIDN2qH6eN6q-KM5bhC3awQzfg&s\",\r\n            \"id\": \"5b01692e-894e-4737-8d08-b9f6bcf523f9\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/products/3d7e8994-b614-484b-a68f-95c4a4609b6d",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"products",
+								"3d7e8994-b614-484b-a68f-95c4a4609b6d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvMTVAZXhhbXBsZS5jb20iLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4OTQ4Mzc2fQ.7tK5tNHo1VPJo-Ljv8TcuPs1pp13EG8r6Gkk6m8u-20",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/products/81c8e4b4-0d68-4f01-a3f6-dbf228a01fea",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"products",
+								"81c8e4b4-0d68-4f01-a3f6-dbf228a01fea"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "get all orders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvQGV4YW1wbGUuY29tIiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTcxODg2MjU5N30.PnxcH6eViwGLdXZ0umncE344hxakbqFoa1jb3v0q7Fg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/orders/",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"orders",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvQGV4YW1wbGUuY29tIiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTcxODg2MjU5N30.PnxcH6eViwGLdXZ0umncE344hxakbqFoa1jb3v0q7Fg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"client_id\": \"4a184bcf-7916-48ed-a035-8b7dbb35c962\",\r\n    \"status\": \"pending\",\r\n    \"total_price\": 8000,\r\n    \"products\": [\r\n        {\r\n            \"product_id\": \"9750570e-5f81-47e2-9853-bf97e39f75d4\",\r\n            \"quantity\": 2\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/orders/?page=1&limit=3",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"orders",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update order",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvMTVAZXhhbXBsZS5jb20iLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4OTQ4Mzc2fQ.7tK5tNHo1VPJo-Ljv8TcuPs1pp13EG8r6Gkk6m8u-20",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"client_id\": \"4a184bcf-7916-48ed-a035-8b7dbb35c962\",\r\n    \"total_price\": 8000,\r\n    \"status\": \"completed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/orders/bea02700-d1b8-4f99-9191-8459bb8a5e57",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"orders",
+								"bea02700-d1b8-4f99-9191-8459bb8a5e57"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete order",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvMTVAZXhhbXBsZS5jb20iLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4OTQ4Mzc2fQ.7tK5tNHo1VPJo-Ljv8TcuPs1pp13EG8r6Gkk6m8u-20",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/orders/bea02700-d1b8-4f99-9191-8459bb8a5e57",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"orders",
+								"bea02700-d1b8-4f99-9191-8459bb8a5e57"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get order by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvMTVAZXhhbXBsZS5jb20iLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4OTQ4Mzc2fQ.7tK5tNHo1VPJo-Ljv8TcuPs1pp13EG8r6Gkk6m8u-20",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://lu-api-2zto7jlh2q-rj.a.run.app/orders/bea02700-d1b8-4f99-9191-8459bb8a5e57",
+							"protocol": "https",
+							"host": [
+								"lu-api-2zto7jlh2q-rj",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"orders",
+								"bea02700-d1b8-4f99-9191-8459bb8a5e57"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
