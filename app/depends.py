@@ -26,3 +26,10 @@ async def refresh_token_verifier(
 ):
     uc = UserCases(db=db)
     return uc.refresh_token(token=refresh_token)
+
+async def is_admin(
+    db: Session = Depends(get_db),
+    token = Depends(oauth_scheme)
+):
+    uc = UserCases(db=db)
+    uc.verify_role(token=token)
